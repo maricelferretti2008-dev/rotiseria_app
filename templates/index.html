@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Rotisería - Pedidos</title>
+</head>
+<body>
+
+<h1>🍕 Pedido: LA DOLLY - CARLOS BERG 3501</h1>
+
+<form method="POST">
+
+<h3>Pedido</h3>
+
+{% for i in range(1,6) %}
+    <label>Producto {{ i }}:</label><br>
+    <select name="producto{{ i }}">
+        <option value="">-- Ninguno --</option>
+        {% for producto, precio in menu.items() %}
+            <option value="{{ producto }}">
+                {{ producto }} - ${{ precio }}
+            </option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <label>Cantidad:</label><br>
+    <input type="number" name="cantidad{{ i }}" min="1">
+    <br><br>
+{% endfor %}
+
+<label>Dirección:</label><br>
+<input type="text" name="direccion" required>
+<br><br>
+
+<label>Forma de pago:</label><br>
+<select name="pago">
+    <option>Efectivo</option>
+    <option>Mercado Pago</option>
+    <option>Transferencia</option>
+</select>
+<br><br>
+
+<label>Comentarios:</label><br>
+<textarea name="comentario" rows="3"
+          placeholder="Ej: sin cebolla, bien cocido, etc."></textarea>
+<br><br>
+
+<button type="submit">Confirmar pedido</button>
+
+</form>
+
+</body>
+</html>
