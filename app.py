@@ -1,24 +1,45 @@
 import os
 from flask import Flask, render_template, request
 import urllib.parse
+from datetime import datetime
+
 
 app = Flask(__name__)
 
 # Menú de la rotisería
-MENU = {
-    "Empanadas de Carne": 1200,
-    "Empanadas de Jamón y Queso": 1200,
-    "Empanadas de Pollo": 1200,
-    "Canastitas Capresse": 1800,
-    "Canastitas Primavera": 1200,
-    "Milanesa": 3500,
-    "Pizza": 4000
+MENUS_POR_DIA = {
+    "lunes": {
+        "Milanesa": 3500,
+        "Empanadas de Carne": 1200
+    },
+    "martes": {
+        "Pizza": 4000,
+        "Empanadas de Jamón y Queso": 1200
+    },
+    "miercoles": {
+        "Canastitas Capresse": 1800,
+        "Empanadas de Pollo": 1200
+    },
+    "jueves": {
+        "Milanesa": 3500,
+        "Pizza": 4000
+    },
+    "viernes": {
+        "Empanadas de Carne": 1200,
+        "Empanadas de Pollo": 1200,
+        "Pizza": 4000
+    }
 }
 
 NUMERO_WHATSAPP = "5491135162414"  # tu número con código país
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    dias = ["lunes", "martes", "miercoles", "jueves", "viernes"]
+    hoy = dias[datetime.now().weekday()]
+    menu_hoy = MENUS_POR_DIA.get(hoy, {})
+
+
     if request.method == "POST":
         direccion = request.form.get("direccion", "")
         pago = request.form.get("pago", "")
@@ -34,7 +55,7 @@ def index():
             if producto and cantidad:
                 try:
                     cantidad = int(cantidad)
-                    precio = MENU.get(producto, 0)
+                    precio = menu_hoy.get(producto, 0)
                     subtotal = precio * cantidad
                     pedido.append(f"• {producto} x {cantidad} = ${subtotal}")
                     total += subtotal
@@ -73,7 +94,7 @@ def index():
         </html>
         """
 
-    return render_template("index.html", menu=MENU)
+    return render_template("index.html", menu=menu_hoy)
     return "<h1>ROTISERÍA ONLINE</h1><p>La app está funcionando</p>"
 
 if __name__ == "__main__":
