@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Rotisería La Dolly</title>
-    <<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         body {
@@ -86,46 +86,9 @@
 
     <form method="POST">
 
-        <h2>🧾 Pedido</h2>
+        <!-- 🔹 ACÁ VA EL SELECTOR DE DÍA -->
+        <h2>📅 Elegí el día</h2>
 
-        {% for i in range(1,6) %}
-        <div class="producto">
-            <label>Producto {{ i }}</label>
-            <select name="producto{{ i }}">
-                <option value="">-- Elegir producto --</option>
-                {% for producto, precio in menu.items() %}
-                    <option value="{{ producto }}">
-                        {{ producto }} - ${{ precio }}
-                    </option>
-                {% endfor %}
-            </select>
-
-            <label>Cantidad</label>
-            <input type="number" name="cantidad{{ i }}" min="1" placeholder="0">
-        </div>
-        {% endfor %}
-
-        <h2>📍 Entrega</h2>
-
-        <label>Dirección</label>
-        <input type="text" name="direccion" required placeholder="Calle y número">
-
-        <label>Forma de pago</label>
-        <select name="pago">
-            <option>Efectivo</option>
-            <option>Mercado Pago</option>
-            <option>Transferencia</option>
-        </select>
-
-        <label>Comentarios</label>
-        <textarea name="comentario" rows="3"
-                  placeholder="Ej: sin cebolla, bien cocido, etc."></textarea>
-
-        <button type="submit">📲 Confirmar pedido</button>
-
-    </form>
-
-</div>
-
-</body>
-</html>
+        <select name="dia" required>
+            <option value="lunes">Lunes</option>
+            <optio

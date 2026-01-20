@@ -35,9 +35,8 @@ NUMERO_WHATSAPP = "5491135162414"  # tu número con código país
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    dias = ["lunes", "martes", "miercoles", "jueves", "viernes"]
-    hoy = dias[datetime.now().weekday()]
-    menu_hoy = MENUS_POR_DIA.get(hoy, {})
+    dia_seleccionado = request.form.get("dia", "lunes")
+    menu_hoy = MENUS_POR_DIA.get(dia_seleccionado, {})
 
 
     if request.method == "POST":
@@ -48,7 +47,7 @@ def index():
         pedido = []
         total = 0
 
-        for i in range(1, 4):
+        for i in range(1, 6):
             producto = request.form.get(f"producto{i}")
             cantidad = request.form.get(f"cantidad{i}")
 
