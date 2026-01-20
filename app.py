@@ -11,7 +11,7 @@ MENUS_POR_DIA = {
         "Empanadas de Carne": 1200
     },
     "martes": {
-        "PAstel de papas": 3500,
+        "Pastel de papas": 3500,
         "Pizza": 4000,
         "Empanadas de Jamón y Queso": 1200
     },
@@ -26,7 +26,7 @@ MENUS_POR_DIA = {
         "Pizza": 4000
     },
     "viernes": {
-        "PArrilada con Guarnición": 3500,
+        "Parrilada con Guarnición": 3500,
         "Empanadas de Carne": 1200,
         "Empanadas de Pollo": 1200,
         "Pizza": 4000
@@ -40,7 +40,7 @@ def index():
     dia_seleccionado = request.form.get("dia", "lunes")
     menu_hoy = MENUS_POR_DIA.get(dia_seleccionado, {})
 
-    if request.method == "POST" and request.form.get("accion") == "pedido":
+    if request.method == "POST" and "confirmar" in request.form:
         direccion = request.form.get("direccion", "")
         pago = request.form.get("pago", "")
         comentario = request.form.get("comentario", "")
@@ -69,8 +69,38 @@ def index():
         )
 
         link = "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + urllib.parse.quote(mensaje)
+            
+    
+    
+    
+       # return f'<a href="{link}" target="_blank">Enviar por WhatsApp</a>'
 
-        return f'<a href="{link}" target="_blank">Enviar por WhatsApp</a>'
+
+
+
+        return f"""
+        <html>
+        <head>
+            <meta http-equiv="refresh" content="0; url={link}">
+        </head>
+        <body style="font-family: Arial; text-align: center;">
+            <h2>Redirigiendo a WhatsApp...</h2>
+            <p>Si no se abre automáticamente, tocá el botón:</p>
+            <a href="{link}" target="_blank"
+                style="display:inline-block;
+                    margin-top:15px;
+                    background:#25D366;
+                    color:white;
+                    padding:12px 20px;
+                    border-radius:8px;
+                    text-decoration:none;
+                    font-size:18px;">
+                 👉 Enviar por WhatsApp
+             </a>
+         </body>
+         </html>
+         """
+
 
     return render_template(
         "index.html",
