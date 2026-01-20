@@ -86,9 +86,52 @@
 
     <form method="POST">
 
-        <!-- 🔹 ACÁ VA EL SELECTOR DE DÍA -->
         <h2>📅 Elegí el día</h2>
-
         <select name="dia" required>
-            <option value="lunes">Lunes</option>
-            <optio
+            <option value="lunes" {{ 'selected' if dia_seleccionado == 'lunes' else '' }}>Lunes</option>
+            <option value="martes" {{ 'selected' if dia_seleccionado == 'martes' else '' }}>Martes</option>
+            <option value="miercoles" {{ 'selected' if dia_seleccionado == 'miercoles' else '' }}>Miércoles</option>
+            <option value="jueves" {{ 'selected' if dia_seleccionado == 'jueves' else '' }}>Jueves</option>
+            <option value="viernes" {{ 'selected' if dia_seleccionado == 'viernes' else '' }}>Viernes</option>
+        </select>
+
+        <h2>🧾 Pedido</h2>
+
+        {% for i in range(1,6) %}
+        <div class="producto">
+            <label>Producto {{ i }}</label>
+            <select name="producto{{ i }}">
+                <option value="">-- Elegir producto --</option>
+                {% for producto, precio in menu.items() %}
+                    <option value="{{ producto }}">{{ producto }} - ${{ precio }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Cantidad</label>
+            <input type="number" name="cantidad{{ i }}" min="1">
+        </div>
+        {% endfor %}
+
+        <h2>📍 Entrega</h2>
+
+        <label>Dirección</label>
+        <input type="text" name="direccion" required>
+
+        <label>Forma de pago</label>
+        <select name="pago">
+            <option>Efectivo</option>
+            <option>Mercado Pago</option>
+            <option>Transferencia</option>
+        </select>
+
+        <label>Comentarios</label>
+        <textarea name="comentario" rows="3"></textarea>
+
+        <button type="submit">📲 Confirmar pedido</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

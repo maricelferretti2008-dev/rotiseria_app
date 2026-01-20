@@ -9,22 +9,27 @@ app = Flask(__name__)
 # Menú de la rotisería
 MENUS_POR_DIA = {
     "lunes": {
+        "Albondigas": 3500,
         "Milanesa": 3500,
         "Empanadas de Carne": 1200
     },
     "martes": {
+        "PAstel de papas": 3500,
         "Pizza": 4000,
         "Empanadas de Jamón y Queso": 1200
     },
     "miercoles": {
+        "Filet con Puré": 3500,        
         "Canastitas Capresse": 1800,
         "Empanadas de Pollo": 1200
     },
     "jueves": {
+        "Canelones": 3500,
         "Milanesa": 3500,
         "Pizza": 4000
     },
     "viernes": {
+        "Parrillada": 3500,
         "Empanadas de Carne": 1200,
         "Empanadas de Pollo": 1200,
         "Pizza": 4000
@@ -35,9 +40,12 @@ NUMERO_WHATSAPP = "5491135162414"  # tu número con código país
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    dia_seleccionado = request.form.get("dia", "lunes")
-    menu_hoy = MENUS_POR_DIA.get(dia_seleccionado, {})
 
+    # 🔹 Día seleccionado (por defecto lunes)
+    dia_seleccionado = request.form.get("dia", "lunes")
+
+    # 🔹 Menú según el día
+    menu_hoy = MENUS_POR_DIA.get(dia_seleccionado, {})
 
     if request.method == "POST":
         direccion = request.form.get("direccion", "")
@@ -68,6 +76,7 @@ def index():
 
         mensaje = (
             "🍽️ *Pedido Rotisería*\n\n"
+            f"📅 Día: {dia_seleccionado.capitalize()}\n\n"
             f"{detalle_pedido}\n\n"
             f"💰 Total: ${total}\n\n"
             f"📝 Comentarios: {comentario}\n"
@@ -93,9 +102,11 @@ def index():
         </html>
         """
 
-    return render_template("index.html", menu=menu_hoy)
-    return "<h1>ROTISERÍA ONLINE</h1><p>La app está funcionando</p>"
+    
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    return render_template(
+       "index.html",
+       menu=menu_hoy,
+       dia_seleccionado=dia_seleccionado
+    )
+
