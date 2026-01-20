@@ -24,7 +24,14 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        .direccion {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #555;
         }
 
         h2 {
@@ -67,13 +74,6 @@
         button:hover {
             background: #1ebe5d;
         }
-
-        .direccion {
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 15px;
-            color: #555;
-        }
     </style>
 </head>
 
@@ -86,15 +86,21 @@
 
     <form method="POST">
 
+        <!-- 🔹 SELECTOR DE DÍA (SE AUTO ENVÍA) -->
         <h2>📅 Elegí el día</h2>
-        <select name="dia" required>
-            <option value="lunes" {{ 'selected' if dia_seleccionado == 'lunes' else '' }}>Lunes</option>
-            <option value="martes" {{ 'selected' if dia_seleccionado == 'martes' else '' }}>Martes</option>
-            <option value="miercoles" {{ 'selected' if dia_seleccionado == 'miercoles' else '' }}>Miércoles</option>
-            <option value="jueves" {{ 'selected' if dia_seleccionado == 'jueves' else '' }}>Jueves</option>
-            <option value="viernes" {{ 'selected' if dia_seleccionado == 'viernes' else '' }}>Viernes</option>
+
+        <select name="dia" onchange="this.form.submit()">
+            <option value="lunes" {{ 'selected' if dia_seleccionado=='lunes' else '' }}>Lunes</option>
+            <option value="martes" {{ 'selected' if dia_seleccionado=='martes' else '' }}>Martes</option>
+            <option value="miercoles" {{ 'selected' if dia_seleccionado=='miercoles' else '' }}>Miércoles</option>
+            <option value="jueves" {{ 'selected' if dia_seleccionado=='jueves' else '' }}>Jueves</option>
+            <option value="viernes" {{ 'selected' if dia_seleccionado=='viernes' else '' }}>Viernes</option>
         </select>
 
+        <!-- 🔹 PARA SABER SI ES SOLO CAMBIO DE DÍA -->
+        <input type="hidden" name="accion" value="dia">
+
+        <!-- 🔹 MENÚ DEL DÍA -->
         <h2>🧾 Pedido</h2>
 
         {% for i in range(1,6) %}
@@ -112,6 +118,7 @@
         </div>
         {% endfor %}
 
+        <!-- 🔹 ENTREGA -->
         <h2>📍 Entrega</h2>
 
         <label>Dirección</label>
@@ -126,6 +133,9 @@
 
         <label>Comentarios</label>
         <textarea name="comentario" rows="3"></textarea>
+
+        <!-- 🔹 ESTE ACCIÓN ES PARA EL PEDIDO FINAL -->
+        <input type="hidden" name="accion" value="pedido">
 
         <button type="submit">📲 Confirmar pedido</button>
 
